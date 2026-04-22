@@ -1,23 +1,22 @@
 #!/bin/bash
 
+# 1. Solicita privilégios imediatamente (Antes de qualquer ECHO)
+# O -p garante que o prompt seja amigável
+sudo -v -p "[sudo] password for $USER: "
+
+# Keep-alive: atualiza o timestamp do sudo enquanto o script rodar
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
 # Color definitions
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 RED='\033[0;31m'
-YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
+# 2. Agora sim iniciamos as mensagens visuais
 echo -e "${BLUE}=== SmartVision Automation for Ubuntu ===${NC}"
 
-# 1. Immediate Sudo Check & Pause
-# This forces the password prompt right at the start
-echo -e "${YELLOW}[!] This script requires administrative privileges.${NC}"
-sudo -v
-
-# Keep-alive: update existing sudo time stamp until script has finished
-while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
-
-# 2. Update and Install Basic Dependencies (NON-SILENT)
+# 3. Update and Install Basic Dependencies (NON-SILENT)
 echo -e "${BLUE}[...] Updating package lists...${NC}"
 sudo apt-get update -y
 
@@ -29,7 +28,7 @@ for pkg in curl wget tar; do
     fi
 done
 
-# 3. Docker Validation and Installation
+# 4. Docker Validation and Installation
 if command -v docker &> /dev/null; then
     echo -e "${GREEN}[OK] Docker is already installed: $(docker -v)${NC}"
 else
@@ -46,12 +45,11 @@ else
     fi
 fi
 
-# 4. Download and Prepare SmartVision
+# 5. Download and Prepare SmartVision
 echo -e "${BLUE}[...] Downloading SmartVision assets...${NC}"
 wget -q https://harpia-collector-scripts-ad78b5.gitlab.io/harpia_helper.tar.gz -O smartvision.tar.gz
 
 if [ -f "smartvision.tar.gz" ]; then
-    # Unpacking (verbose to show activity)
     tar -xzvf smartvision.tar.gz
     
     if [ -f "harpia_helper.sh" ]; then
@@ -66,7 +64,7 @@ else
     exit 1
 fi
 
-# 5. Handover to SmartVision Submenu
+# 6. Handover to SmartVision Submenu
 echo -e "${BLUE}[...] Launching SmartVision...${NC}"
 echo -e "${GREEN}------------------------------------------${NC}"
 
