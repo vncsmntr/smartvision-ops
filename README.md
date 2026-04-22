@@ -8,6 +8,14 @@ This repository centralizes all automation and infrastructure management scripts
 * **Dependency Management:** Automatic check and install for `curl`, `wget`, `tar`, and `docker`.
 * **Smart Transition:** Seamless handover from environment setup to the operational submenu.
 
+## 🛠 Prerequisites
+
+Ubuntu 20.04 LTS or higher.
+
+Active internet connection to download Docker and project assets.
+
+Administrative (sudo) privileges.
+
 ## 🚀 Getting Started
 
 To run the main installation script on a fresh Ubuntu server, simply run:
@@ -15,14 +23,3 @@ To run the main installation script on a fresh Ubuntu server, simply run:
 ```bash
 curl -fsSL https://raw.githubusercontent.com/vncsmntr/smartvision-ops/main/install/install.sh | bash
 
-📂 Repository Structure
-
-/install: Core installation scripts for new nodes (e.g., install.sh).
-
-🛠 Prerequisites
-
-Ubuntu 20.04 LTS or higher.
-
-Active internet connection to download Docker and project assets.
-
-Administrative (sudo) privileges.
