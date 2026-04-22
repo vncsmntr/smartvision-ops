@@ -1,10 +1,9 @@
 #!/bin/bash
 
-# 1. Solicita privilégios imediatamente (Antes de qualquer ECHO)
-# O -p garante que o prompt seja amigável
+# 1. Request administrative privileges immediately (Before any ECHO)
 sudo -v -p "[sudo] password for $USER: "
 
-# Keep-alive: atualiza o timestamp do sudo enquanto o script rodar
+# Keep-alive: update sudo timestamp in background while script is running
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 # Color definitions
@@ -13,10 +12,10 @@ BLUE='\033[0;34m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-# 2. Agora sim iniciamos as mensagens visuais
+# 2. Visual header
 echo -e "${BLUE}=== SmartVision Automation for Ubuntu ===${NC}"
 
-# 3. Update and Install Basic Dependencies (NON-SILENT)
+# 3. Update and Install Basic Dependencies
 echo -e "${BLUE}[...] Updating package lists...${NC}"
 sudo apt-get update -y
 
@@ -30,7 +29,7 @@ done
 
 # 4. Docker Validation and Installation
 if command -v docker &> /dev/null; then
-    echo -e "${GREEN}[OK] Docker is already installed: $(docker -v)${NC}"
+    echo -e "${GREEN}[OK] Docker is already installed: $(docker -v)$${NC}"
 else
     echo -e "${BLUE}[...] Docker not found. Starting official installation...${NC}"
     curl -fsSL https://get.docker.com -o get-docker.sh
@@ -47,11 +46,14 @@ fi
 
 # 5. Download and Prepare SmartVision
 echo -e "${BLUE}[...] Downloading SmartVision assets...${NC}"
+# Keeping the requested original GitLab URL
 wget -q https://harpia-collector-scripts-ad78b5.gitlab.io/harpia_helper.tar.gz -O smartvision.tar.gz
 
 if [ -f "smartvision.tar.gz" ]; then
+    # Extracting files
     tar -xzvf smartvision.tar.gz
     
+    # Rename extracted script to smartvision.sh
     if [ -f "harpia_helper.sh" ]; then
         mv harpia_helper.sh smartvision.sh
     fi
@@ -68,4 +70,5 @@ fi
 echo -e "${BLUE}[...] Launching SmartVision...${NC}"
 echo -e "${GREEN}------------------------------------------${NC}"
 
+# Redirecting input from /dev/tty to prevent "Invalid Option" bugs
 exec sudo ./smartvision.sh </dev/tty
