@@ -10,11 +10,9 @@ This repository centralizes all automation and infrastructure management scripts
 
 ## 🛠 Prerequisites
 
-Ubuntu 20.04 LTS or higher.
-
-Active internet connection to download Docker and project assets.
-
-Administrative (sudo) privileges.
+* Ubuntu 20.04 LTS or higher.
+* Active internet connection to download Docker and project assets.
+* Administrative (sudo) privileges.
 
 ## 🚀 Getting Started
 
