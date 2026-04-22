@@ -13,4 +13,4 @@ This repository centralizes all automation and infrastructure management scripts
 To run the main installation script on a fresh Ubuntu server, simply run:
 
 ```bash
-curl -fsSL [https://raw.githubusercontent.com/vncsmntr/smartvision-ops/main/install/install.sh](https://raw.githubusercontent.com/vncsmntr/smartvision-ops/main/install/install.sh) | bash
+curl -fsSL https://raw.githubusercontent.com/vncsmntr/smartvision-ops/main/install/install.sh | bash
